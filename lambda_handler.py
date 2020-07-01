@@ -9,17 +9,6 @@ logger.setLevel(logging.INFO)
 
 sns = boto3.client("sns")
 
-import base64
-import boto3
-import logging
-import json
-import os
-import urllib
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
-sns = boto3.client("sns")
-
 def parse_event(event):
     body = event.get("body", "")
     content_type = event.get("headers", {}).get("content-type", "text/plain")
