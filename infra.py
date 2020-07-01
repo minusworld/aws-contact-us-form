@@ -12,7 +12,7 @@ from jinja2 import Template as jinja_template
 domain = os.environ.get("EMAIL_CONTACT_DOMAIN", "test")
 email_target = os.environ.get("EMAIL_TARGET", "test@email.com")
 recaptcha_secret = os.environ.get("RECAPTCHA_SECRET")
-cdomain = domain.replace(".", "-")
+cdomain = domain.replace(".", "-")[:24] # AWS names have a character limit
 
 ### SNS
 send_to = sns.Subscription(
