@@ -96,10 +96,7 @@ role = iam.Role(
 )
 
 with open("lambda_handler.py", 'r') as fin:
-    template_data = fin.read()
-
-code_template = jinja_template(template_data)
-code = code_template.render()
+    code = fin.read()
 
 lambda_function = awslambda.Function(
     "LambdaHandler",
