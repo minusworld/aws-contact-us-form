@@ -1,4 +1,5 @@
 import os
+from urllib.parse import urlparse
 from troposphere import GetAtt
 from troposphere import Ref
 from troposphere import Template
@@ -9,10 +10,13 @@ from troposphere import iam
 from troposphere import apigatewayv2
 from jinja2 import Template as jinja_template
 
-domain = os.environ.get("EMAIL_CONTACT_DOMAIN", "test")
+domain = os.environ.get("EMAIL_CONTACT_DOMAIN", "http://test")
+parsed_domain = urlparse(domain)
+if not parsed_domain.scheme:
+    raise ValueError(f"Domain '{domain}' requires a scheme. This is needed for CORS headers.")
 email_target = os.environ.get("EMAIL_TARGET", "test@email.com")
 recaptcha_secret = os.environ.get("RECAPTCHA_SECRET")
-cdomain = domain.replace(".", "-")[:24] # AWS names have a character limit
+cdomain = parsed_domain.netloc.replace(".", "-")[:24] # AWS names have a character limit
 
 ### SNS
 send_to = sns.Subscription(
